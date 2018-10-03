@@ -1,14 +1,12 @@
-import * as vscode from "vscode";
 import * as fs from "fs";
 import * as path from "path";
+import * as vscode from "vscode";
+import { IGithubCredentials, ISelectedText } from "../defs";
 
 export const getWebView = (
     extenstionPath: string,
-    initialSelectedText: selectedTextType,
-    githubCredentials: {
-        username: string;
-        token: string;
-    }
+    initialSelectedText: ISelectedText,
+    githubCredentials: IGithubCredentials
 ): string => {
     const mainfestPath = path.join(extenstionPath, "dist/app", "manifest.json");
 
@@ -28,6 +26,7 @@ export const getWebView = (
 
     // And the uri we use to load this script in the webview
     const cssUri = cssPathOnDisk.with({ scheme: "vscode-resource" });
+    /* tslint:disable */
     return /* html */ `
     <html lang="en">
         <head>

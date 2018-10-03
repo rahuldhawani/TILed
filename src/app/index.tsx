@@ -1,18 +1,25 @@
+import notification from "antd/lib/notification";
+
+import "antd/lib/notification/style/css";
 import * as React from "react";
 import { render } from "react-dom";
+import { IGithubCredentials } from "../defs";
 import Composer from "./components/Composer";
 import "./styles.css";
 
-import { notification } from "antd";
-
-const openNotificationWithIcon = (message, description, type = "error") => {
+const openNotificationWithIcon = (
+    message: string,
+    description: string,
+    type = "error"
+): void => {
+    // @ts-ignore
     notification[type]({
-        message,
-        description
+        description,
+        message
     });
 };
 
-const setToken = token => {
+const setToken = (token: IGithubCredentials): void => {
     storage.setItem("gat", token);
 };
 
@@ -20,12 +27,12 @@ const initialState = (window as any).__INITIAL_STATE__;
 const vscode = (window as any).vscode;
 
 const storage = {
-    setItem(key, value) {
+    setItem(key: string, value: object | string) {
         if (vscode) {
             vscode.postMessage({
+                key,
                 command: "storage",
                 type: "put",
-                key,
                 value: JSON.stringify(value)
             });
         } else {
@@ -40,8 +47,6 @@ const applyBaseVscodeCss = () => {
     const bgColor = computedStyles
         .getPropertyValue("--vscode-editor-background")
         .trim();
-    // const bgColor = "#011627";
-    // const color = "#d6deeb";
 
     const color = computedStyles
         .getPropertyValue("--vscode-editor-foreground")
@@ -66,8 +71,6 @@ const applyBaseVscodeCss = () => {
         .getPropertyValue("--vscode-button-hoverBackground")
         .trim(); //
 
-    // const linkColor = "#4080d0";
-
     const styleStr = `
     --til-background-color: ${bgColor};
     --til-text-color: ${color};
@@ -76,7 +79,8 @@ const applyBaseVscodeCss = () => {
     --til-link-color: ${linkColor};
     --til-button-bgcolor: ${buttonBackground};
     --til-button-hover-bgcolor: ${buttonHoverBgColor};
-    --til-button-color: ${buttonForeground}`;
+    --til-button-color: ${buttonForeground};
+    `;
 
     document.body.setAttribute("style", styleStr);
 };

@@ -1,19 +1,24 @@
 import * as React from "react";
+import { IGithubCredentials, IShowToast } from "../../../defs";
 import "./styles.scss";
 
+interface IProps {
+    setToken: (credentials: IGithubCredentials, verify?: boolean) => void;
+    onClose: () => void;
+    showToast: IShowToast;
+    githubCredentials: IGithubCredentials;
+}
+
+interface IState {
+    githubCredentials: IGithubCredentials;
+    showEditCredentials: boolean;
+}
+
 export default class IntroductionPage extends React.PureComponent<
-    {
-        setToken: (string, boolean?) => void;
-        onClose: () => void;
-        showToast: showToastType;
-        githubCredentials: githubCrederntialType;
-    },
-    {
-        githubCredentials: githubCrederntialType;
-        showEditCredentials: boolean;
-    }
+    IProps,
+    IState
 > {
-    constructor(props) {
+    constructor(props: IProps) {
         super(props);
         this.state = {
             githubCredentials: {
@@ -24,85 +29,7 @@ export default class IntroductionPage extends React.PureComponent<
         };
     }
 
-    handleTokenSave = () => {
-        if (
-            this.state.githubCredentials.token &&
-            this.state.githubCredentials.username
-        ) {
-            this.props.setToken(this.state.githubCredentials);
-        } else {
-            this.props.showToast(
-                "Opps!",
-                "Please provide username and token!",
-                "error"
-            );
-        }
-    };
-
-    handleValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
-        this.setState({
-            githubCredentials: {
-                ...this.state.githubCredentials,
-                [e.currentTarget.name]: e.currentTarget.value
-            }
-        });
-    };
-
-    handleCredentialsRemove = () => {
-        this.setState(
-            {
-                githubCredentials: {
-                    username: "",
-                    token: ""
-                },
-                showEditCredentials: false
-            },
-            () => this.setCredentials(false)
-        );
-    };
-
-    setCredentials = verify => {
-        this.props.setToken(this.state.githubCredentials, verify);
-    };
-
-    _getButtons() {
-        let buttons;
-        if (this.state.showEditCredentials) {
-            const isUpdateDisabled =
-                this.state.githubCredentials.token ===
-                this.props.githubCredentials.token;
-            buttons = (
-                <React.Fragment>
-                    <button
-                        onClick={this.handleCredentialsRemove}
-                        className="access-token__button--text"
-                    >
-                        🗑 Remove
-                    </button>
-                    <button
-                        onClick={this.handleTokenSave}
-                        className="access-token__button"
-                        disabled={isUpdateDisabled}
-                    >
-                        🖋 Update
-                    </button>
-                </React.Fragment>
-            );
-        } else {
-            buttons = (
-                <button
-                    onClick={this.handleTokenSave}
-                    className="access-token__button"
-                >
-                    Save & Continue 👉
-                </button>
-            );
-        }
-
-        return <div className="access-token__buttons">{buttons}</div>;
-    }
-
-    render() {
+    public render() {
         const { username, token } = this.state.githubCredentials;
 
         return (
@@ -160,5 +87,83 @@ export default class IntroductionPage extends React.PureComponent<
                 </div>
             </div>
         );
+    }
+
+    private handleTokenSave = () => {
+        if (
+            this.state.githubCredentials.token &&
+            this.state.githubCredentials.username
+        ) {
+            this.props.setToken(this.state.githubCredentials);
+        } else {
+            this.props.showToast(
+                "Opps!",
+                "Please provide username and token!",
+                "error"
+            );
+        }
+    };
+
+    private handleValue = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        this.setState({
+            githubCredentials: {
+                ...this.state.githubCredentials,
+                [e.currentTarget.name]: e.currentTarget.value
+            }
+        });
+    };
+
+    private handleCredentialsRemove = () => {
+        this.setState(
+            {
+                githubCredentials: {
+                    username: "",
+                    token: ""
+                },
+                showEditCredentials: false
+            },
+            () => this.setCredentials(false)
+        );
+    };
+
+    private setCredentials = (verify: boolean) => {
+        this.props.setToken(this.state.githubCredentials, verify);
+    };
+
+    private _getButtons() {
+        let buttons;
+        if (this.state.showEditCredentials) {
+            const isUpdateDisabled =
+                this.state.githubCredentials.token ===
+                this.props.githubCredentials.token;
+            buttons = (
+                <React.Fragment>
+                    <button
+                        onClick={this.handleCredentialsRemove}
+                        className="access-token__button--text"
+                    >
+                        🗑 Remove
+                    </button>
+                    <button
+                        onClick={this.handleTokenSave}
+                        className="access-token__button"
+                        disabled={isUpdateDisabled}
+                    >
+                        🖋 Update
+                    </button>
+                </React.Fragment>
+            );
+        } else {
+            buttons = (
+                <button
+                    onClick={this.handleTokenSave}
+                    className="access-token__button"
+                >
+                    Save & Continue 👉
+                </button>
+            );
+        }
+
+        return <div className="access-token__buttons">{buttons}</div>;
     }
 }

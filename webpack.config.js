@@ -1,13 +1,12 @@
 const path = require("path");
 const WebpackAssetsManifest = require("webpack-assets-manifest");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const webpack = require("webpack");
 
 module.exports = (env, argv) => ({
     entry: "./src/app/index.tsx",
     output: {
         filename: "main.js",
-        path: console.log(__dirname) || path.resolve(__dirname, "dist/app")
+        path: path.resolve(__dirname, "dist/app")
     },
     resolve: {
         extensions: [".tsx", ".ts", ".js", ".jsx"]

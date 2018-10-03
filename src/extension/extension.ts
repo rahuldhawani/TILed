@@ -1,21 +1,27 @@
 "use strict";
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from "vscode";
+
 import * as path from "path";
-import { getWebView } from "./webview";
+import * as vscode from "vscode";
+
+/* tslint:disable */
+// @ts-ignore
 const Cache = require("vscode-cache");
+/* tslint:enable */
 
-const WINDOW_TITLE: string = "📕 TILed";
+import { ISelectedText } from "../defs";
+import { getWebView } from "./webview";
 
-let selectedText: selectedTextType;
+const WINDOW_TITLE: string = "TILed";
+
+let selectedText: ISelectedText;
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
     // Use the console to output diagnostic information (console.log) and errors (console.error)
     // This line of code will only be executed once when your extension is activated
-    console.log('Congratulations, your extension "til-vscode" is now active!');
+
+    // @ts-ignore
     const storage = new Cache(context);
 
     context.subscriptions.push(
@@ -26,7 +32,7 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 // this method is called when your extension is deactivated
-export function deactivate() {}
+// export function deactivate() {}
 
 // our main Panel controller.
 class Panel {
@@ -36,12 +42,6 @@ class Panel {
     public static currentPanel: Panel | undefined;
 
     public static readonly viewType = "tilEditor";
-
-    private readonly _panel: vscode.WebviewPanel;
-    private _storage: any;
-    // private readonly _extensionPath: string;
-
-    private _disposables: vscode.Disposable[] = [];
 
     public static createOrShow(extensionPath: string, storage: any) {
         const column = vscode.window.activeTextEditor
@@ -55,8 +55,8 @@ class Panel {
             editor.edit(() => {
                 const selection = editor.selection;
                 selectedText = {
-                    text: editor.document.getText(selection),
-                    language: editor.document.languageId
+                    language: editor.document.languageId,
+                    text: editor.document.getText(selection)
                 };
             });
         }
@@ -78,10 +78,9 @@ class Panel {
             {
                 // Enable javascript in the webview
                 enableScripts: true,
-
-                // @TODO And restric the webview to only loading content from our extension's `media` directory.
                 localResourceRoots: [
-                    vscode.Uri.file(path.join(extensionPath, "dist"))
+                    vscode.Uri.file(path.join(extensionPath, "dist")),
+                    vscode.Uri.file(path.join(extensionPath, "static"))
                 ]
             }
         );
@@ -94,19 +93,34 @@ class Panel {
         );
     }
 
+    private readonly _panel: vscode.WebviewPanel;
+    private _storage: any;
+    // private readonly _extensionPath: string;
+
+    private _disposables: vscode.Disposable[] = [];
+
     constructor(
         panel: vscode.WebviewPanel,
-        extenstionPath: string,
-        selection: selectedTextType,
+        extensionPath: string,
+        selection: ISelectedText,
         storage: any
     ) {
         this._panel = panel;
-        // this._extensionPath = extenstionPath;
         this._storage = storage;
-        const githubCredentials = JSON.parse(this._storage.get("gat"));
+
+        const _creds = this._storage.get("gat");
+
+        let githubCredentials = { username: "", token: "" };
+
+        if (_creds) {
+            githubCredentials = JSON.parse(_creds);
+        }
         this._panel.title = WINDOW_TITLE;
+        this._panel.iconPath = vscode.Uri.file(
+            path.join(extensionPath, "static", "icon.png")
+        );
         this._panel.webview.html = getWebView(
-            extenstionPath,
+            extensionPath,
             selection,
             githubCredentials
         );
@@ -120,7 +134,12 @@ class Panel {
         );
     }
 
-    public handleMessage(message) {
+    public handleMessage(message: {
+        command: string;
+        type: string;
+        key?: string;
+        value?: string;
+    }) {
         switch (message.command) {
             case "storage":
                 {

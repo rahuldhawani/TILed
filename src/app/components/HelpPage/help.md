@@ -1,146 +1,33 @@
-# Using TILed Editor 📕
+## 📕 TILed
 
-TILed editor is a markdown editor, that allows you to edit live.
-Currently limted amount of markdown features can be live transformed, but it does not limit you to not use markdown.
-
-## Features 🦄
-
--   Blockquote
--   Code block (inline)
--   Code block (triple backticks)
--   Header
--   Bold
--   Italic
--   Bold + Italic
--   Strikethrough
--   Hr
--   Link
--   Image
--   Unordered List
--   Ordered List
-
-### Blockquote
-
-```
->[space]Blockquote
-```
-
-### Code block (inline)
-
-```
-[space * 4]Code block
-```
-
-### Code block (triple backticks)
-
-```
-[` * 3][space] Code block
-```
-
-Use specific language:
-
-```
-[` * 3][lang][space] Code block
-```
-
-for example:
-
-```js
-const wow = test();
-```
-
-<kbd>CMD</kbd>+<kbd>Enter</kbd>: to exit code block
-
-### Header
-
-```
-[# * 1~6][space] Header
-```
-
-Example
-
-```
-# h1
-## h2
-### h3
-#### h4
-##### h5
-###### h6
-```
-
-### Bold
-
-```
-**strong**[space]
-or
-__strong__[space]
-```
-
-### Italic
-
-```
-_italic_[space]
-or
-*italic*[space]
-```
-
-### Bold + Italic
-
-```
-___[strong + italic]___[space]
-or
-***[strong + italic]***[space]
-```
-
-### Strikethrough
-
-```
-~[strikethrough]~[space]
-```
-
-### Hr
-
-```
-***
-or
----
-```
-
-### Link
-
-```
-[example](http://example.com "Optional title")[space]
-```
-
-### Image
-
-```
-![example](http://example.com "Optional title")[space]
-```
-
-### Unordered list
-
-```
-*[space]
-or
-+[space]
-or
--[space]
-```
-
-### Ordered List
-
-```
-1.[space]
-```
+**TILed is medium to share your day to day learning with the world.**
 
 ---
 
-## Bugs or features 🐛
+### Motivation 🤔
 
-TILed is currenly in alpha and only supports sharing on Github Gist. Future plans are to create a personal feed and share it on multiple platforms like twitter or any platform which exposes APIs to create Posts.
+We learn a lot of new things in our day to day life, be it in code reviews, developing your cool side projects or features in office projects. The idea of TILed is to share that learning with the world without switching context between the medium you got introduced to that learning and sharing it with others.
 
-If you find anything buggy or fishy please create an issue [here](here).
+This project is inspired by [shawn wang](https://twitter.com/swyx)'s [tweet](https://twitter.com/swyx/status/1009174159690264579) about **Learning in Public**. Share your learnings with others, no matter how short it is, it'll be beneficial to someone, for sure.
+
+As of now the medium to compose TIL is Visual Studio Code Editor, and it can be shared via Github Gist. Future plans are to create a personal feed and share it on multiple platforms like Twitter or any platform which exposes APIs to create Posts.
+
+### Installation & How to use? 📝
+
+-   Install the extension using this [link]() or search for `TILed` in vscode extension gallery.
+-   Open the extension by the keyboard shortcut (shift+alt+t) or using typing `TIL` in Command Palette.
+-   You can select the code you want to share and open the extension. A TIL with your code selected with be opened.
+-   Add Github Access Token in the Settings Page.
+-   Hit Save. A Gist will be created with your learning.
+-   This app uses [draftjs](https://draftjs.org) editor and [markdown plugin](https://github.com/withspectrum/draft-js-markdown-plugin), so you can use almost all of the markdown shortcuts.
+
+### Future plans or TODOs ✅
+
+-   [ ] Upload image inside editor
+-   [ ] Chrome extension
+-   [ ] More mediums to share on
+
+### Bugs or features 🐛
+
+If you find anything buggy or anything to add on please create an issue [here](https://github.com/rahuldhawani/TILed/issues).
 Thanks a ton! ✌️
-
-todo: add how to start, github gist etc.
