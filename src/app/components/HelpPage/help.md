@@ -14,7 +14,7 @@ As of now the medium to compose TIL is Visual Studio Code Editor, and it can be 
 
 ### Installation & How to use? 📝
 
--   Install the extension using this [link]() or search for `TILed` in vscode extension gallery.
+-   Install the extension using this [link](https://marketplace.visualstudio.com/items?itemName=rahuldhawani.tiled) or search for `TILed` in vscode extension gallery.
 -   Open the extension by the keyboard shortcut (shift+alt+t) or using typing `TIL` in Command Palette.
 -   You can select the code you want to share and open the extension. A TIL with your code selected with be opened.
 -   Add Github Access Token in the Settings Page.
