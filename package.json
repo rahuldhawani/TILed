@@ -2,7 +2,7 @@
     "name": "tiled",
     "displayName": "TILed",
     "description": "TILed is medium to share your day to day learning with the world.",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "publisher": "rahuldhawani",
     "engines": {
         "vscode": "^1.26.0"
@@ -73,7 +73,7 @@
         "tslint-config-prettier": "^1.15.0",
         "tslint-react": "^3.6.0",
         "typescript": "^2.6.1",
-        "vscode": "^1.1.6",
+        "vscode": "^1.1.22",
         "webpack": "^4.15.1",
         "webpack-assets-manifest": "^3.0.1",
         "webpack-cli": "^3.0.8"
